@@ -21,6 +21,13 @@ const users = [
     }
 ]
 
+app.use((req, res, next)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Methods", "*")
+    res.header("Access-Control-Allow-Headers", "*")
+    next()
+})
+
 app.get('/', (req, res) => {
     res.send('Olá Mundo!')
 })
@@ -34,6 +41,7 @@ app.post('/login', (req, res) => {
     const senha = req.body.senha
     console.log(senha)
     console.log(email)
+    console.log(req.body)
     for (var i= 0; i< users.length; i= i+1) {
         const user = users[i]
         if (email === user.email) {
@@ -43,7 +51,9 @@ app.post('/login', (req, res) => {
         }
     
     }
-    return res.send("credenciais inválidas")
+        return res.json({
+            error:"credenciais inválidas"
+        })
 
 })
 
